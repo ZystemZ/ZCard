@@ -1,6 +1,3 @@
-# ZCard
-ZCARD — an open, persistent game media format designed for physical cartridges, digital distribution, updates, saves and modern game storage.
-
 # ZCARD
 
 ## An Open Game Media Format for Physical and Modern Game Distribution
@@ -463,4 +460,481 @@ The long-term goal is a physical implementation.
         ┌────────────────────────┐
         │        ZCARD           │
         │                        │
+        │      Game Media        │
+        │                        │
+        │   Persistent Storage   │
+        │                        │
+        └───────────┬────────────┘
+                    │
+                    │
+             ZCARD Interface
+                    │
+                    ▼
+             ┌──────────────┐
+             │   ZConsole   │
+             └──────────────┘
 ```
+
+The physical interface is intentionally separated from the logical file/container specification.
+
+This allows different generations of ZCARD hardware to evolve without redefining the entire game format.
+
+---
+
+# Interface Concept
+
+The physical ZCARD concept is intended to use a dedicated high-speed storage interface rather than exposing a conventional filesystem directly to the game.
+
+The physical connector and electrical interface are currently experimental.
+
+The project is investigating:
+
+* High-speed differential communication
+* Dedicated cartridge controllers
+* Persistent flash storage
+* Hardware identification
+* Secure media identification
+* Storage management
+* Writable user regions
+
+The physical interface is **not yet a finalized specification**.
+
+---
+
+# Why not simply use SD cards or USB?
+
+ZCARD is intended to provide a platform-specific media abstraction rather than simply exposing generic storage.
+
+A dedicated game medium can eventually provide:
+
+* Deterministic identification
+* Game-specific storage management
+* Read/write region separation
+* Hardware authentication
+* Standardized metadata
+* Game-oriented streaming
+* Persistent game identity
+* Console-level integration
+
+The physical implementation can still use modern flash technology internally.
+
+---
+
+# Filesystem vs Container
+
+ZCARD should not be confused with a conventional filesystem.
+
+A filesystem answers:
+
+> "How do I store files on this storage device?"
+
+ZCARD answers:
+
+> "How is a game represented as persistent media?"
+
+The two concepts can coexist.
+
+```text
+Physical Storage
+      │
+      ▼
+ZCARD Media Layer
+      │
+      ├── Game
+      ├── Updates
+      ├── Saves
+      └── User Data
+             │
+             ▼
+       Game Runtime
+```
+
+The goal is to allow the console to understand the game medium without exposing unnecessary storage implementation details to the game itself.
+
+---
+
+# Reference Implementation
+
+The ZCARD project includes a reference implementation:
+
+## ZCardEmulator
+
+The **ZCardEmulator** is a development and testing tool for the ZCARD specification.
+
+It is **not the ZCARD format itself**.
+
+The emulator exists to provide a software environment in which developers can:
+
+* Create ZCARD images
+* Mount ZCARD images
+* Inspect metadata
+* Validate archives
+* Test game packages
+* Test ZEXE execution
+* Test asset streaming
+* Debug runtime behavior
+* Experiment with future ZCARD features
+
+```text
+                 ZCARD SPECIFICATION
+                         │
+             ┌───────────┴───────────┐
+             │                       │
+       Physical ZCARD          Digital ZCARD
+             │                       │
+             │                 .zcard image
+             │                       │
+             └──────────┬────────────┘
+                        │
+                        ▼
+                  ZCardEmulator
+                        │
+                        ▼
+                  ZConsole Runtime
+```
+
+The emulator therefore acts as a **reference consumer of the format**.
+
+---
+
+# ZCARD Toolchain
+
+The project is intended to eventually provide a complete toolchain:
+
+```text
+                 ZCARD
+                   │
+        ┌──────────┼──────────┐
+        │          │          │
+      Build      Validate    Test
+        │          │          │
+        ▼          ▼          ▼
+   ZCARD Builder  Validator  Emulator
+        │
+        ▼
+     game.zcard
+        │
+        ▼
+ Physical ZCARD
+```
+
+Planned tools include:
+
+* ZCARD Builder
+* ZCARD Validator
+* ZCARD Inspector
+* ZCARD Emulator
+* ZCARD SDK
+* ZCARD Development Tools
+* Physical ZCARD utilities
+
+---
+
+# Current Reference Implementation
+
+The current reference implementation is written in **C++**.
+
+Repository:
+
+```text
+ZCardEmulator
+```
+
+It currently provides experimental implementations of:
+
+* ZCARD container handling
+* ZCF container prototype
+* ZEXE
+* ZConsole runtime
+* Virtual CPU
+* Asset streaming
+* Asset cache
+* ZCARD Builder
+* Archive validation
+* Windows emulator dashboard
+* Automated tests
+
+The implementation exists primarily to validate the concepts described by the ZCARD project.
+
+---
+
+# Specification Status
+
+| Component                       | Status                |
+| ------------------------------- | --------------------- |
+| ZCARD concept                   | Experimental          |
+| Logical media architecture      | Experimental          |
+| Digital `.zcard` representation | Implemented prototype |
+| ZCARD Builder                   | Prototype             |
+| ZCARD Validator                 | Prototype             |
+| ZCF                             | Experimental          |
+| ZEXE                            | Experimental          |
+| ZConsole Runtime                | Experimental          |
+| Emulator                        | Experimental          |
+| Asset Streaming                 | Prototype             |
+| Save Data Architecture          | Experimental          |
+| Update Architecture             | Experimental          |
+| Physical ZCARD                  | Research              |
+| Electrical Interface            | Research              |
+| Final Hardware Specification    | Not defined           |
+
+---
+
+# Versioning
+
+ZCARD specifications use explicit versions.
+
+Example:
+
+```text
+ZCARD Specification 0.1
+```
+
+Future incompatible changes should increment the major specification version.
+
+A ZCARD should identify its format version in its header and/or metadata.
+
+Example:
+
+```text
+format = ZCARD
+version = 1
+```
+
+---
+
+# Compatibility
+
+A ZCARD implementation should identify:
+
+* Format version
+* Required runtime
+* Architecture
+* Optional capabilities
+* Required features
+
+This allows a console or emulator to determine whether it can execute a particular ZCARD.
+
+Example:
+
+```text
+ZCARD
+ │
+ ├── Format: 1
+ ├── Runtime: 1
+ ├── Architecture: ZConsole
+ └── Features:
+       ├── Streaming
+       ├── Save Data
+       └── Updates
+```
+
+---
+
+# Security
+
+ZCARD implementations must treat game media as potentially untrusted input.
+
+The reference implementation investigates protections including:
+
+* Path traversal prevention
+* Archive validation
+* File size limits
+* CRC validation
+* Malformed archive detection
+* Duplicate path detection
+* Unsafe filenames
+* Invalid metadata
+* Malformed executable files
+* Resource exhaustion
+
+Future specifications may define:
+
+* Digital signatures
+* Developer certificates
+* Game identity
+* Secure updates
+* Media authentication
+* Anti-tampering mechanisms
+
+Security features are still under development.
+
+---
+
+# Open Standard
+
+The long-term objective is for ZCARD to be implementable by independent developers.
+
+A healthy ZCARD ecosystem should allow different implementations to coexist:
+
+```text
+             ZCARD Specification
+                     │
+       ┌─────────────┼─────────────┐
+       │             │             │
+    Emulator       Console       Tools
+       │             │             │
+    Windows        Linux        Builder
+                                 │
+                              Hardware
+```
+
+No single implementation should define what ZCARD is.
+
+The specification should.
+
+---
+
+# Roadmap
+
+## Specification
+
+* [x] Define initial ZCARD concept
+* [x] Define logical media model
+* [x] Define digital development representation
+* [ ] Formal ZCARD header specification
+* [ ] Formal metadata specification
+* [ ] Formal region specification
+* [ ] Formal manifest specification
+* [ ] Compatibility specification
+* [ ] Versioning specification
+* [ ] Update specification
+* [ ] Save-data specification
+* [ ] Security specification
+
+## Software
+
+* [x] Reference emulator
+* [x] ZCARD builder prototype
+* [x] Archive validation
+* [x] ZEXE prototype
+* [x] ZConsole runtime prototype
+* [x] Asset streaming prototype
+* [ ] Standalone ZCARD validator
+* [ ] ZCARD inspector
+* [ ] Cross-platform reference tools
+* [ ] Developer SDK
+
+## Hardware
+
+* [ ] Physical media prototype
+* [ ] Storage controller
+* [ ] Cartridge controller
+* [ ] Physical connector prototype
+* [ ] Communication protocol
+* [ ] Hardware identification
+* [ ] Writable region management
+* [ ] Reference ZCARD board
+* [ ] ZConsole prototype
+
+---
+
+# Documentation
+
+The specification will be maintained separately from the reference emulator.
+
+Planned documentation:
+
+```text
+docs/
+├── ZCARD-SPECIFICATION.md
+├── ZCARD-HEADER.md
+├── ZCARD-MEDIA.md
+├── ZCARD-MANIFEST.md
+├── ZCARD-UPDATE.md
+├── ZCARD-SAVE-DATA.md
+├── ZCARD-SECURITY.md
+├── ZCF.md
+└── ZEXE.md
+```
+
+---
+
+# Contributing
+
+ZCARD is an experimental open project and contributions are welcome.
+
+Areas of interest include:
+
+* Format design
+* Storage architecture
+* Filesystems
+* Game development
+* Emulator development
+* C++
+* Embedded systems
+* Flash storage
+* Hardware design
+* High-speed interfaces
+* Graphics
+* Runtime systems
+* Security
+* Documentation
+
+For major changes to the format, please open a discussion before implementing the change.
+
+Format compatibility is considered a priority.
+
+---
+
+# License
+
+The ZCARD specification and reference implementation are currently under development.
+
+See the repository license and individual component licenses for details.
+
+---
+
+# Project Status
+
+**ZCARD is an experimental open game media format.**
+
+The current software implementation is a reference implementation used to validate the architecture.
+
+The physical cartridge is a future hardware objective.
+
+The specification will evolve as the software and hardware prototypes provide new information.
+
+---
+
+# The Idea
+
+Physical games should not have to disappear just because modern games became too large for traditional cartridges.
+
+ZCARD explores another possibility:
+
+```text
+        1990s
+          │
+     GAME CARTRIDGE
+          │
+          ▼
+     ┌───────────┐
+     │   GAME    │
+     └───────────┘
+
+          ↓
+
+        ZCARD
+          │
+     ┌────┴────┐
+     │         │
+   GAME      USER
+   DATA      DATA
+     │         │
+     ├─ Code   ├─ Saves
+     ├─ Assets ├─ Config
+     ├─ DLC    └─ Updates
+     └─ Data
+          │
+          ▼
+      ZConsole
+```
+
+**ZCARD is an attempt to make physical game media relevant again — using modern storage instead of preserving the limitations of old cartridges.**
+
+---
+
+## ZCARD
+
+**An open game media format for the next generation of physical games.**
