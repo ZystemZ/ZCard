@@ -6,36 +6,28 @@ O projeto ZCARD busca criar um ambiente aberto para desenvolvedores, pesquisador
 
 ## Esperamos
 
-Os participantes devem:
+Participantes devem:
 
-* Respeitar outros participantes;
-* Manter discussões técnicas;
-* Aceitar opiniões diferentes;
-* Criticar implementações, não pessoas;
-* Fornecer feedback construtivo;
-* Evitar comportamentos ofensivos.
+- Respeitar outros participantes;
+- Manter discussões técnicas;
+- Aceitar opiniões diferentes;
+- Criticar implementações, não pessoas;
+- Fornecer feedback construtivo.
 
 ## Não serão aceitos
 
-* Assédio;
-* Ameaças;
-* Ataques pessoais;
-* Discriminação;
-* Divulgação indevida de informações privadas;
-* Interrupção deliberada do projeto;
-* Comportamento malicioso.
+- Assédio;
+- Ameaças;
+- Ataques pessoais;
+- Discriminação;
+- Divulgação indevida de informações privadas;
+- Interrupção deliberada do projeto;
+- Comportamento malicioso.
 
 ## Discordâncias técnicas
 
-Discordâncias arquiteturais são normais em um projeto experimental.
+Discordâncias são normais em um projeto experimental.
 
-Discussões devem se concentrar em:
-
-* Requisitos;
-* Compatibilidade;
-* Desempenho;
-* Segurança;
-* Viabilidade;
-* Manutenção.
+Discussões devem considerar requisitos, compatibilidade, desempenho, segurança, viabilidade e manutenção.
 
 Os mantenedores poderão tomar a decisão final quando não houver consenso.
