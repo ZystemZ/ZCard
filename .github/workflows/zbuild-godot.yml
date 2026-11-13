@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/zbuild-godot-mvp-0.1
   pull_request:
     paths:
       - "tools/zbuild-godot.py"
