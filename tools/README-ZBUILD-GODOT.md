@@ -73,7 +73,7 @@ CODE/
     ANDROID/
 ```
 
-O manifesto mantém `format: zgame-0.1` e identifica o engine como `godot-4`. O campo `executable` aponta para um artefato principal, enquanto `executables` registra os artefatos por destino.
+O manifesto mantém `format: zgame-native-0.1` e identifica o engine como `godot-4`. O campo `executable` aponta para um artefato principal, enquanto `executables` registra os artefatos por destino.
 
 ## Limitações conhecidas do MVP 0.1
 
