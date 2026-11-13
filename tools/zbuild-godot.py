@@ -218,7 +218,7 @@ def build(args: argparse.Namespace) -> dict:
             if target == "android":
                 files = export_android(binary, project_copy, selected[target], destination)
             else:
-                files = export_desktop(binary, project_copy, selected[target], destination, destination)
+                files = export_desktop(binary, project_copy, selected[target], target, destination)
             artifacts[target] = [p.relative_to(stage).as_posix() for p in files]
 
         primary = next((p for p in artifacts.get("windows", []) if p.lower().endswith(".exe")), None)
