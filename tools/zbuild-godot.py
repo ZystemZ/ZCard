@@ -133,7 +133,7 @@ def export_desktop(binary: str, project: Path, preset: str, target: str, out: Pa
     run_command([binary, "--headless", "--path", str(project), "--export-release", preset, str(executable)], project)
     if not executable.is_file():
         raise BuildError(f"Exportação {target} não gerou o executável esperado: {executable.name}")
-    return sorted(p for p in out.iterdir() if p.is_file())
+    sidecars = sorted(p for p in out.iterdir() if p.is_file() and p != executable)\n    return [executable, *sidecars]
 
 
 def export_android(binary: str, project: Path, preset: str, out: Path) -> list[Path]:
