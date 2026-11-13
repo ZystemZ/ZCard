@@ -228,9 +228,9 @@ def build(args: argparse.Namespace) -> dict:
             primary = next((p for p in artifacts.get("android", []) if p.lower().endswith(".apk")), artifacts[targets[0]][0])
 
         manifest = {
-            "format": "zgame-0.1",
+            "format": "zgame-native-0.1",
             "title": title,
-            "platform": "godot-4",
+            "platform": targets[0],
             "engine": {"name": "Godot", "version": version},
             "executable": primary,
             "executables": {key: value for key, value in artifacts.items()},
